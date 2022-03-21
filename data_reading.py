@@ -11,22 +11,22 @@ for rowid in range(len(dfe)):
         method[my_id] = {
                          "MethodID": row["MethodID"],
                          "FeatSelection": row["FeatSelection"],
-                         "FeatDescription": row["FeatDescriptor"]
-                         "Classifier": row["Classifier"]
-		    “Experiment”: [ { "Repetition": row["Repetition"],
+                         "FeatDescription": row["FeatDescriptor"],
+                         "Classifier": row["Classifier"],
+		    	 “Experiment”: [ { "Repetition": row["Repetition"],
                          "Train": row["Train"],
-                         "BenignPrec": row["BenignPrec"]
-                         "BenignRec": row["BenignRec"]
-                         "MalignRec": row["MalignPrec"]
-                         "MalignPrec": row["MalignRec"]
+                         "BenignPrec": row["BenignPrec"],
+                         "BenignRec": row["BenignRec"],
+                         "MalignRec": row["MalignPrec"],
+                         "MalignPrec": row["MalignRec"],
                          }]
-                                 }
+                         }
   else:
         new_dict = { "Repetition": row["Repetition"],
                          "Train": row["Train"],
-                         "BenignPrec": row["BenignPrec"]
-                         "BenignRec": row["BenignRec"]
-                         "MalignRec": row["MalignPrec"]
+                         "BenignPrec": row["BenignPrec"],
+                         "BenignRec": row["BenignRec"],
+                         "MalignRec": row["MalignPrec"],
                          "MalignPrec": row["MalignRec"]
                          }
         method[my_id]["Experiment"].append(new_dict)
@@ -43,9 +43,9 @@ for rowid in range(len(dfe)):
 	my_collection[my_id] = { 
                          "Repetition": row["Repetition"], 
                          "Train": row["Train"], 
-                         "BenignPrec": row["BenignPrec"] 
-                         "BenignRec": row["BenignRec"] 
-                         "MalignRec": row["MalignPrec"] 
+                         "BenignPrec": row["BenignPrec"], 
+                         "BenignRec": row["BenignRec"],
+                         "MalignRec": row["MalignPrec"], 
                          "MalignPrec": row["MalignRec"] 
                          } 
 	  
