@@ -33,14 +33,15 @@ for rowid in range(len(dfe)):
 
 	  
 # EXPERIMENT
+Experiments = {}
 with open('Dades.xlsx’, mode='rb') as fname: 
 	dfe = pd.read_excel(fname, sheet_name='MethodOutput') 
 
 for rowid in range(len(dfe)): 
     row = dfe.iloc[rowid] 
     my_id = row["Experiment"] 
-    if my_id not in my_collection: 
-	my_collection[my_id] = { 
+    if my_id not in Experiments: 
+	Experiments[my_id] = { 
                          "Repetition": row["Repetition"], 
                          "Train": row["Train"], 
                          "BenignPrec": row["BenignPrec"], 
