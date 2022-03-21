@@ -13,13 +13,13 @@ for rowid in range(len(dfe)):
                          "FeatSelection": row["FeatSelection"],
                          "FeatDescription": row["FeatDescriptor"],
                          "Classifier": row["Classifier"],
-		    	 “Experiment”: [ { "Repetition": row["Repetition"],
-                         "Train": row["Train"],
-                         "BenignPrec": row["BenignPrec"],
-                         "BenignRec": row["BenignRec"],
-                         "MalignRec": row["MalignPrec"],
-                         "MalignPrec": row["MalignRec"],
-                         }]
+		    	 “Experiment”: [{ "Repetition": row["Repetition"],
+                         		"Train": row["Train"],
+                         		"BenignPrec": row["BenignPrec"],
+                         		"BenignRec": row["BenignRec"],
+                         		"MalignRec": row["MalignPrec"],
+                         		"MalignPrec": row["MalignRec"],
+                         		}]
                          }
   else:
         new_dict = { "Repetition": row["Repetition"],
