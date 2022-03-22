@@ -1,4 +1,36 @@
 import pandas as pd
+from pymongo import MongoClient
+
+mongoUser = ''
+mongoPassword = ''
+mongoDB = ''
+
+# En execució remota
+Host = 'localhost' 
+Port = 27017
+
+DSN = "mongodb://{}:{}".format(Host,Port)
+
+conn = MongoClient(DSN)
+
+bd = conn['Cancer']
+
+#Inicialització de les col·leccions
+
+if "Method" not in bd.list_collection_names():
+    methods = bd.create_collection('Method')
+else:
+    methods = bd["Method"]
+
+if "Patient" not in bd.list_collection_names():
+    patients = bd.create_collection('Patient')
+else:
+    patients = bd["Patient"]
+
+if "Nodules" not in bd.list_collection_names():
+    nodules = bd.create_collection('Nodules')
+else:
+    nodules = bd["Nodules"]
 
 # METHODS
 Method = {}
@@ -32,7 +64,7 @@ for rowid in range(len(dfe)):
                     "MalignPrec": row["MalignRec"]
                     }
         Method[my_id]["Experiment"].append(new_dict)
-
+    methods.insert_one(Method)
 	  
 # PATIENTS
 Patient = {} 
@@ -56,6 +88,7 @@ for rowid in range(len(dfe)):
         new_dict = {'NoduleID': row["NoduleID"],  
         "DiagnosisNodul": row["DiagnosisNodul"]} 
         Patient[my_id]["Nodules"].append(new_dict) 
+    patients.insert_one(Patient)
 
 #NODULES
 def search(dfe, my_id, patient_id, name1, name2):
@@ -89,3 +122,4 @@ for rowid in range(len(dfe)):
                                            'Train': row2['Train']
                                            }
                           }
+    nodules.insert_one(Nodules)
