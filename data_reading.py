@@ -109,17 +109,24 @@ for rowid in range(len(dfe)):
     patient_id = row["PatientID"]
     my_id2 = search(dfe2, my_id, patient_id, 'NodulID', 'PatientID')
     row2 = dfe2.iloc[my_id2]
-   
-    if (my_id or my_id2) not in Nodules:
-        Nodules[my_id2] = { 'PatientID': row['PatientID'],
-                            "NoduleID": row["NoduleID"],
-                            "DiagnosisNodul": row['DiagnosisNodul'],
-                            'Position': {'X': row['PositionX'], 'Y': row['PositionY'], 'Z': row['PositionZ']},
-                            'CtScanner': {'CTID': row['CTID'], 'Diammeter': row['Diameter (mm)']},
-                            'Experiment': {'MethodID': row2['MethodID'],
-                                           'ExperimentRepetition': row2['ExperimentRepetition'],
-                                           'RadiomicsDiagnosis': row2['RadiomicsDiagnosis'],
-                                           'Train': row2['Train']
-                                           }
-                          }
+    no_esta = False
+    if (my_id2 or my_id) not in Nodules:
+        no_esta = True
+    if my_id2 in Nodules:
+        if my_id not in Nodules[my_id2]:
+            no_esta = True
+    if no_esta:
+        Nodules[my_id2] = {
+                'PatientID': row['PatientID'],
+                "NoduleID": row["NoduleID"],
+                "DiagnosisNodul": row['DiagnosisNodul'],
+                'Position': {'X': row['PositionX'], 'Y': row['PositionY'], 'Z': row['PositionZ']},
+                'CtScanner': {'CTID': row['CTID'], 'Diammeter': row['Diameter (mm)']},
+                'Experiment': {'MethodID': row2['MethodID'],
+                               'ExperimentRepetition': row2['ExperimentRepetition'],
+                               'RadiomicsDiagnosis': row2['RadiomicsDiagnosis'],
+                               'Train': row2['Train']}
+                    
+                }
+    
     nodules.insert_one(Nodules)
