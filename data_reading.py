@@ -1,6 +1,6 @@
 import pandas as pd
 
-# METHOD
+# METHODS
 Method = {}
 with open('Dades.xlsx', mode='rb') as fname:
     dfe = pd.read_excel(fname, sheet_name='MethodOutput')
@@ -34,7 +34,7 @@ for rowid in range(len(dfe)):
         Method[my_id]["Experiment"].append(new_dict)
 
 	  
-# USERS
+# PATIENTS
 Patient = {} 
 with open('Dades.xlsx', mode='rb') as fname: 
     dfe = pd.read_excel(fname, sheet_name='Cases') 
