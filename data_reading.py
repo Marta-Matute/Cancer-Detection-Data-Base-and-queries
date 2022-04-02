@@ -144,4 +144,26 @@ for rowid in range(len(dfe)):
 for id_dict in Nodules.keys():
     nodules.insert_one(Nodules[id_dict])
 
+#CtScanner
+Scanner = {}
+with open('Dades.xlsx', mode='rb') as fname:
+    dfe = pd.read_excel(fname, sheet_name='Cases')
+
+for rowid in range(len(dfe)):
+    row = dfe.iloc[rowid]
+    my_id = row["CTID"]
+
+    if my_id not in Patient:
+        Scanner[my_id] = { "CTID": int(row['CTID']),
+               "Device": row['Device'],
+               "dataCT": row["dataCT"],
+               "ResolutionT": row["ResolutionT"],
+               "ResolutionTV": int(row["ResolutionTV"]),
+               "ResolutionTC": int(row["ResolutionTC"])
+                }
+        
+for id_dict in Scanner.keys():
+    CtScanner.insert_one(Scanner[id_dict])
+
+
 conn.close()
