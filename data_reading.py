@@ -29,12 +29,17 @@ else:
     patients = bd["Patient"]
     patients.drop()
     
-
 if "Nodules" not in bd.list_collection_names():
     nodules = bd.create_collection('Nodules')
 else:
     nodules = bd["Nodules"]
     nodules.drop()
+
+if "CtScanner" not in bd.list_collection_names():
+    CtScanner = bd.create_collection('CtScanner')
+else:
+    CtScanner = bd["CtScanner"]
+    CtScanner.drop()
 
 # METHODS
 Method = {}
