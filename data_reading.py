@@ -1,5 +1,6 @@
 import pandas as pd
 from pymongo import MongoClient
+from bson import ObjectId
 
 mongoUser = ''
 mongoPassword = ''
@@ -21,11 +22,13 @@ if "Method" not in bd.list_collection_names():
     methods = bd.create_collection('Method')
 else:
     methods = bd["Method"]
+    methods.drop()
 
 if "Patient" not in bd.list_collection_names():
     patients = bd.create_collection('Patient')
 else:
     patients = bd["Patient"]
+    
 
 if "Nodules" not in bd.list_collection_names():
     nodules = bd.create_collection('Nodules')
@@ -41,31 +44,37 @@ for rowid in range(len(dfe)):
     row = dfe.iloc[rowid]
 
     my_id = row["MethodID"]
+    #print("jdbfjwicn")
+    #print("row:  ", "row",row)
+    #print("my_id:  ", "My_id",my_id)
+    
     if my_id not in Method:
         Method[my_id] = {"MethodID": row["MethodID"],
                          "FeatSelection": row["FeatSelection"],
                          "FeatDescription": row["FeatDescriptor"],
                          "Classifier": row["Classifier"],
-		    	 
-                         "Experiment": [{"Repetition": row["Repetition"],
-                                         "Train": row["Train"],
+		    	         "Experiment": [{"Repetition": int(row["Repetition"]),
+                                         "Train": int(row["Train"]),
                                      	 "BenignPrec": row["BenignPrec"],
                                      	 "BenignRec": row["BenignRec"],
-                                     	 "MalignRec": row["MalignPrec"],
-                                     	 "MalignPrec": row["MalignRec"],
+                                     	 "MalignRec": int(row["MalignPrec"]),
+                                     	 "MalignPrec": row["MalignRec"]
                                      	}]
                          }
+          
     else:
-        new_dict = {"Repetition": row["Repetition"],
-                    "Train": row["Train"],
+        new_dict = {"Repetition": int(row["Repetition"]),
+                    "Train": int(row["Train"]),
                     "BenignPrec": row["BenignPrec"],
                     "BenignRec": row["BenignRec"],
-                    "MalignRec": row["MalignPrec"],
+                    "MalignRec": int(row["MalignPrec"]),
                     "MalignPrec": row["MalignRec"]
                     }
         Method[my_id]["Experiment"].append(new_dict)
-    methods.insert_one(Method)
-	  
+        
+methods.insert_many([Method])
+	 
+
 # PATIENTS
 Patient = {} 
 with open('Dades.xlsx', mode='rb') as fname: 
@@ -75,20 +84,33 @@ for rowid in range(len(dfe)):
     row = dfe.iloc[rowid] 
     my_id = row["PatientID"] 
     if my_id not in Patient: 
-        Patient[my_id] = {"PatientID": row["PatientID"], 
+        #del Patient[my_id]['_id']
+        entry = dict()
+        Patient[my_id] = {"_id": ObjectId(),
+                            "PatientID": row["PatientID"], 
                           "Age": int(row['Age']), 
                           "Gender": row["Gender"], 
                           "DiagnosisPatient": row["DiagnosisPatient"], 
-                          "Nodules": [{"NoduleID": row["NoduleID"], 
+                          "Nodules": [{"NoduleID": int(row["NoduleID"]), 
                                        "DiagnosisNodul":  row["DiagnosisNodul"] 
                                      }] 
-                         } 
+                         }
+        entry = {"PatientID": row["PatientID"], 
+                          "Age": int(row['Age']), 
+                          "Gender": row["Gender"], 
+                          "DiagnosisPatient": row["DiagnosisPatient"], 
+                          "Nodules": [{"NoduleID": int(row["NoduleID"]), 
+                                       "DiagnosisNodul":  row["DiagnosisNodul"] 
+                                     }] }
+        Patient[my_id] = entry
 
     else: 
-        new_dict = {'NoduleID': row["NoduleID"],  
+        new_dict = {'NoduleID': int(row["NoduleID"]),  
         "DiagnosisNodul": row["DiagnosisNodul"]} 
         Patient[my_id]["Nodules"].append(new_dict) 
-    patients.insert_one(Patient)
+
+patients.insert_many([Patient])
+
 
 #NODULES
 def search(dfe, my_id, patient_id, name1, name2):
@@ -116,17 +138,20 @@ for rowid in range(len(dfe)):
         if my_id not in Nodules[my_id2]:
             no_esta = True
     if no_esta:
-        Nodules[my_id2] = {
+        Nodules[row['PatientID']] = {
                 'PatientID': row['PatientID'],
-                "NoduleID": row["NoduleID"],
+                "NoduleID": int(row["NoduleID"]),
                 "DiagnosisNodul": row['DiagnosisNodul'],
-                'Position': {'X': row['PositionX'], 'Y': row['PositionY'], 'Z': row['PositionZ']},
-                'CtScanner': {'CTID': row['CTID'], 'Diammeter': row['Diameter (mm)']},
+                'Position': {'X': int(row['PositionX']), 'Y': int(row['PositionY']), 'Z': int(row['PositionZ'])},
+                'CtScanner': {'CTID': int(row['CTID']), 'Diammeter': float(row['Diameter (mm)'])},
                 'Experiment': {'MethodID': row2['MethodID'],
-                               'ExperimentRepetition': row2['ExperimentRepetition'],
+                               'ExperimentRepetition': int(row2['ExperimentRepetition']),
                                'RadiomicsDiagnosis': row2['RadiomicsDiagnosis'],
-                               'Train': row2['Train']}
+                               'Train': int(row2['Train'])}
                     
                 }
-    
-    nodules.insert_one(Nodules)
+
+nodules.insert_many([Nodules])
+
+
+conn.close()
