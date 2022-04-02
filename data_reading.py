@@ -85,8 +85,7 @@ for rowid in range(len(dfe)):
     if my_id not in Patient: 
         #del Patient[my_id]['_id']
         entry = dict()
-        Patient[my_id] = {"_id": ObjectId(),
-                            "PatientID": row["PatientID"], 
+        Patient[my_id] = {"PatientID": row["PatientID"], 
                           "Age": int(row['Age']), 
                           "Gender": row["Gender"], 
                           "DiagnosisPatient": row["DiagnosisPatient"], 
