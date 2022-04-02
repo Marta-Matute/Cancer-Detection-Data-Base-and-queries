@@ -1,6 +1,5 @@
 import pandas as pd
 from pymongo import MongoClient
-from bson import ObjectId
 
 mongoUser = ''
 mongoPassword = ''
