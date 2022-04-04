@@ -42,3 +42,6 @@ In the collection Patient is saved the information of the entity Patient, as age
  In the collection CtScanner is saved all data related to Scanner, as device used, resolution, etc.
 
 Finally, we have created the Method collection which contains information from Method and Experiment entities. For this collection we have considered applying the attribute pattern by creating a list of all the experiments that have been performed for each method.
+
+## Test
+We have performed all queries explained in "Goals" and they have performed out well, so we consider that the proposed model is correct or at least it works well for the queries done.
