@@ -20,5 +20,25 @@ Our main objective for this project will be to create a data base using MongoDB 
 9. Modify the parameter ResolutionTV increasing it by 20% from the scans that took place on 18/11/2018.
 
 ## Explanation for files in the repository 
-\object kjb
+Data:
+  - Dades.xlsx
+    All the data to sort in the correct way
+  - JocDeProves.xlsx
+    All the queries explained abovve solved
+Reading:
+  - data_reading.py
+    A Python file used to read all data, put in the correct way (with corresponding entities) and update in MongoDB server.
+Test:
+  - Joc de proves - JSON queries
+    A JSON file used to test data and if data is organized correctly.
+    
+ ## Explanation for entities
+ We considered to split data in 4 different collections. Those are Patient, Nodules, CtScanner and Method.
+ 
+ In the collection Patient is saved the information of the entity Patient, as age, gender, etc. Apart of the entity key "NoduleID".
+ 
+ In the collection Nodules is saved the rest of the information about Nodules, and is related with the entity CTScanner and Method. In that case is applied subset pattern as it allows us to more easily access the information that we consider most relevant and that we will consult more frequently.
+ 
+ In the collection CtScanner is saved all data related to Scanner, as device used, resolution, etc.
 
+Finally, we have created the Method collection which contains information from the “Method” and “Experiment” entities. For this collection we have considered applying the attribute pattern by creating a list of all the experiments that have been performed for each method.
