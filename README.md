@@ -20,5 +20,5 @@ Our main objective for this project will be to create a data base using MongoDB 
 9. Modify the parameter ResolutionTV increasing it by 20% from the scans that took place on 18/11/2018.
 
 ## Explanation for files in the repository 
-// TO DO
+\object kjb
 
