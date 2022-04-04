@@ -63,6 +63,7 @@ db.Nodules.aggregate([
 
 /*8. Mostrar els pacients que tenen tots els seus nóduls amb diagnosis = “Benign” 
      i el seu recompte.*/
+     
 db.Patient.aggregate([
     {$match:{DiagnosisPatient:'Benign'}},
     {$unwind:"$Nodules"},
@@ -73,3 +74,7 @@ db.Patient.aggregate([
 /*9. Modificar la ResolutionTV aumentant-la un 20% dels escàners que es van realitzar 
      amb DataCT = 18/11/2018*/
 
+db.CtScanner.aggregate([
+    {$match:{dataCT:ISODate("2018-07-15T00:00:00.0Z")}}
+    {$project :{CTID:1, Device:1, dataST:1, ResolutionT:1, ResolutionTC:1, half_price :{ $multiply :[1.2, "$ResolutionTV"]}}}
+    ])
