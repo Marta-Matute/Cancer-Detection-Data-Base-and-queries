@@ -43,7 +43,13 @@ db.Patient.aggregate([
 /*6. Mostrar els 4 mètodes amb més repeticions de l’experiment. 
      Mostra el ID del Mètode i número de repeticions de l’experiment.*/
 
-
+db.Nodules.aggregate([
+    {$unwind: "$Experiment"},
+    {$group: {_id: "$Experiment.MethodID", maxQuantity: { $max: "$Experiment.ExperimentRepetition" } }},
+    {$project: {"MethodID": 1, maxQuantity: 1}},
+    {$sort: {maxQuantity: -1}},
+    {$limit: 4}
+    ])
 
 /*7. Per cada pacient els escàners (CTs) que s’ha fet. 
      Mostra el ID del Pacient, device i la data del CT.*/
