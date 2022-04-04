@@ -35,10 +35,10 @@ Test:
  ## Explanation for entities
  We considered to split data in 4 different collections. Those are Patient, Nodules, CtScanner and Method.
  
- In the collection Patient is saved the information of the entity Patient, as age, gender, etc. Apart of the entity key "NoduleID".
+In the collection Patient is saved the information of the entity Patient, as age, gender, etc. Apart of the entity key "NoduleID" and nodul Diagnosis. We have added diagnosis of nodule to access this information more quickly, as we considered it important.
  
- In the collection Nodules is saved the rest of the information about Nodules, and is related with the entity CTScanner and Method. In that case is applied subset pattern as it allows us to more easily access the information that we consider most relevant and that we will consult more frequently.
+ In the collection Nodules is saved the rest of the information about Nodules, and is related with the entity CTScanner and Method. To save the data is used a dictionary with 2 keys, PatientID and NoduleID. Each row has more than one experiment. In that case is applied subset pattern as it allows us to more easily access the information that we consider most relevant and that we will consult more frequently.
  
  In the collection CtScanner is saved all data related to Scanner, as device used, resolution, etc.
 
-Finally, we have created the Method collection which contains information from the “Method” and “Experiment” entities. For this collection we have considered applying the attribute pattern by creating a list of all the experiments that have been performed for each method.
+Finally, we have created the Method collection which contains information from Method and Experiment entities. For this collection we have considered applying the attribute pattern by creating a list of all the experiments that have been performed for each method.
