@@ -5,7 +5,10 @@ db.CtScanner.distinct("Device")
 
 /*2. Número total de nòduls que s’han utilitzat per l’entrenament 
      (train=1) de l’experiment 1 del mètode "Method2”.*/
-
+     
+db.Nodules.aggregate([ 
+    {$match: {"Experiment.Train": 1, "Experiment.MethodID": "Method2", "Experiment.ExperimentRepetition": 1}},
+    {$count: "total"}])
 
 
 /*3. Valor màxim, mínim i mitjà de BenignPrec agrupat per classificador (classifier).
