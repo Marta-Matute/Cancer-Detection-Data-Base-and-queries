@@ -119,32 +119,33 @@ with open('Dades.xlsx', mode='rb') as fname:
     dfe = pd.read_excel(fname, sheet_name='Cases')
     dfe2 = pd.read_excel(fname, sheet_name='Training')
 
-for rowid in range(len(dfe)):
+for rowid in range(len(dfe2)):
 
-    row = dfe.iloc[rowid]
-    my_id = row["NoduleID"]
-    patient_id = row["PatientID"]
-    my_id2 = search(dfe2, my_id, patient_id, 'NodulID', 'PatientID')
-    row2 = dfe2.iloc[my_id2]
-    no_esta = False
+    row2 = dfe2.iloc[rowid]
+    nodule_id = row2["NodulID"]
+    patient_id = row2["PatientID"]
+    my_id2 = search(dfe, nodule_id, patient_id, 'NoduleID', 'PatientID')
+    row = dfe.iloc[my_id2]
 
-    if my_id not in Nodules:
-        no_esta = True
-    if my_id2 in Nodules:
-        if my_id not in Nodules[my_id2]:
-            no_esta = True
-    if no_esta:
-        Nodules[row['PatientID']] = {
+
+    if (patient_id, nodule_id) not in Nodules.keys(): 
+        Nodules[patient_id, nodule_id] = {
                 'PatientID': row['PatientID'],
                 "NoduleID": int(row["NoduleID"]),
                 "DiagnosisNodul": row['DiagnosisNodul'],
                 'Position': {'X': int(row['PositionX']), 'Y': int(row['PositionY']), 'Z': int(row['PositionZ'])},
                 'CtScanner': {'CTID': int(row['CTID']), 'Diammeter': float(row['Diameter (mm)'])},
-                'Experiment': {'MethodID': row2['MethodID'],
+                'Experiment': [{'MethodID': row2['MethodID'],
+                               'ExperimentRepetition': int(row2['ExperimentRepetition']),
+                               'RadiomicsDiagnosis': row2['RadiomicsDiagnosis'],
+                               'Train': int(row2['Train'])}]
+                }
+    else:
+        new_dict = {'MethodID': row2['MethodID'],
                                'ExperimentRepetition': int(row2['ExperimentRepetition']),
                                'RadiomicsDiagnosis': row2['RadiomicsDiagnosis'],
                                'Train': int(row2['Train'])}
-                }
+        Nodules[(patient_id, nodule_id)]['Experiment'].append(new_dict)
 
 for id_dict in Nodules.keys():
     nodules.insert_one(Nodules[id_dict])
