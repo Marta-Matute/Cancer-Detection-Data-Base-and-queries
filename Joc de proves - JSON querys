@@ -82,6 +82,6 @@ db.Patient.aggregate([
      amb DataCT = 18/11/2018*/
 
 db.CtScanner.aggregate([
-    {$match:{dataCT:ISODate("2018-07-15T00:00:00.0Z")}}
+    {$match:{dataCT:ISODate("2018-07-15T00:00:00.0Z")}},
     {$project :{CTID:1, Device:1, dataST:1, ResolutionT:1, ResolutionTC:1, half_price :{ $multiply :[1.2, "$ResolutionTV"]}}}
     ])
