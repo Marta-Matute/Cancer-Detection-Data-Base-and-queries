@@ -1,9 +1,3 @@
-# Matemàtica Computacional i Analítica de Dades - 2022
-1. [Cèlia Martínez, NIU: 1569504, Github user: celia-m15](https://github.com/celia-m15) 
-2. [Marta Matute, NIU 1496672, Github user: Marta-Matute](https://github.com/Marta-Matute)
-3. [Goretti Peña, NIU: 1566866, Github user: gorettipena](https://github.com/gorettipena)
-5. [Judit Ugas, NIU: 1569163, Github user: Juditu](https://github.com/Juditu)
-
 ## Introduction
 In this repository we find a project where we work with the design, implementation and queries for a database in MongoBD. We'll use data about Lung Cancer Detection, taken from the research funded by ATTRACT in the project ToPiomics, Radiomics for Early Detection of Lung Cancer. 
 
